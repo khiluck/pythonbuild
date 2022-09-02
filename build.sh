@@ -20,7 +20,7 @@ grep "Debian" /etc/*releas* &> /dev/null || die "This script should run only on 
 # ---  
 
 # Navigate to TEMP dir
-cd /tmp/
+cd $TEMP
 
 # Update
 sudo apt-get update -y
@@ -43,3 +43,6 @@ make -j $(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
 
 # Install the Python binaries:
 sudo make altinstall
+
+# Add the Python to PATH variable
+echo "export PATH=\$PATH:$(echo ~/.python$PYTHONVER)" >> ~/.bashrc
