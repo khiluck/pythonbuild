@@ -36,8 +36,7 @@ tar -xf Python-$PYTHONVER.tgz
 
 # Navigate to the Python source directory and execute the configure script:
 cd Python-$PYTHONVER
-mkdir ~/.python$PYTHONVER
-./configure --enable-optimizations --prefix=~/.python$PYTHONVER
+./configure --enable-optimizations --prefix=$(echo ~/.python$PYTHONVER)
 
 # Start build process:
 make -j $(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
