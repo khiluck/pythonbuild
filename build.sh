@@ -45,5 +45,5 @@ make -j $(grep ^cpu\\scores /proc/cpuinfo | uniq |  awk '{print $4}')
 sudo make altinstall
 
 # Add the Python to PATH variable
-grep ".python$PYTHONVER" ~/.bashrc &> /dev/null || echo "export PATH=\$PATH:$(echo ~/.python$PYTHONVER)" >> ~/.bashrc
+grep ".python$PYTHONVER" ~/.bashrc &> /dev/null || echo "export PATH=\$PATH:$(echo ~/.python$PYTHONVER/bin)" >> ~/.bashrc
 source ~/.bashrc
