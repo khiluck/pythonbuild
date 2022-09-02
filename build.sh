@@ -20,7 +20,7 @@ grep "Debian" /etc/*releas* &> /dev/null || die "This script should run only on 
 # ---  
 
 # Navigate to TEMP dir
-cd $TEMP
+cd /tmp/
 
 # Update
 sudo apt-get update -y
