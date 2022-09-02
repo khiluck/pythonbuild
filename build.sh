@@ -47,3 +47,5 @@ sudo make altinstall
 # Add the Python to PATH variable
 grep ".python$PYTHONVER" ~/.bashrc &> /dev/null || echo "export PATH=\$PATH:$(echo ~/.python$PYTHONVER/bin)" >> ~/.bashrc
 source ~/.bashrc
+ln -s ~/.python$PYTHONVER/bin/python3.10 python
+ln -s ~/.python$PYTHONVER/bin/python3.10 python3
