@@ -33,6 +33,7 @@ tar -xf Python-$PYTHONVER.tgz
 
 # Navigate to the Python source directory and execute the configure script:
 cd Python-$PYTHONVER
+mkdir ~/.python$PYTHONVER
 ./configure --enable-optimizations --prefix=~/.python$PYTHONVER
 
 # Start build process:
