@@ -31,14 +31,18 @@ def iter_in_pairs(iterable):
     for i in range(1, len(iterable)):
         yield (iterable[i-1], iterable[i])
 
-# Select .png files from directory with images
-files = os.listdir(dir_with_images)
-png_files = sorted(list(filter(lambda f: f.endswith('.png'), files)))
+# Iterate through directories
+directories = sorted(list([ name for name in os.listdir(dir_with_images) if os.path.isdir(os.path.join(dir_with_images, name)) ]))
+for each_dir in directories:
+    full_path_to_dir = os.path.join(dir_with_images, each_dir)
+    # Select .png files from directory with images
+    files = os.listdir(full_path_to_dir)
+    png_files = sorted(list(filter(lambda f: f.endswith('.png'), files)))
 
-# Iterate through list of images and selec current and previous
-for prev, cur in iter_in_pairs(png_files):
-    prev_np = cv2.imread(os.path.join(dir_with_images, prev))
-    cur_np = cv2.imread(os.path.join(dir_with_images, cur))
-    error = check_similar_images(prev_np, cur_np)
-    if error < 0.01:
-        print(f"Files {os.path.join(dir_with_images, prev)} is similar to {os.path.join(dir_with_images, cur)} and error score is {error}")
+    # Iterate through list of images and selec current and previous
+    for prev, cur in iter_in_pairs(png_files):
+        prev_np = cv2.imread(os.path.join(full_path_to_dir, prev))
+        cur_np = cv2.imread(os.path.join(full_path_to_dir, cur))
+        error = check_similar_images(prev_np, cur_np)
+        if error < 0.01:
+            print(f"Files {os.path.join(full_path_to_dir, prev)} is similar to {os.path.join(full_path_to_dir, cur)} and error score is {error}")
