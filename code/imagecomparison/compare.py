@@ -22,25 +22,8 @@ def check_similar_images(original, duplicate):
 #        print("The images have same size and channels")
         difference = cv2.subtract(original, duplicate)
         b, g, r = cv2.split(difference)
-
-    if cv2.countNonZero(b) == 0 and cv2.countNonZero(g) == 0 and cv2.countNonZero(r) == 0:
-#        print("The images are completely Equal")
-#        cv2.imshow('difference', difference)
-#        cv2.waitKey(0)
-#        cv2.destroyAllWindows()
         error, diff = mse_algorithm(original, duplicate)
-        cv2.imshow("difference", diff)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-        return True, error
-    else:
-#        print("But they are not Equal")
-        error, diff = mse_algorithm(original, duplicate)
-#        print("Image matching Error between the two images:",error)
-        cv2.imshow("difference", diff)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-        return False, error
+        return error
 
 # This is the part of iteration
 # Select current and previous element
@@ -56,8 +39,6 @@ png_files = sorted(list(filter(lambda f: f.endswith('.png'), files)))
 for prev, cur in iter_in_pairs(png_files):
     prev_np = cv2.imread(os.path.join(dir_with_images, prev))
     cur_np = cv2.imread(os.path.join(dir_with_images, cur))
-    result, error = check_similar_images(prev_np, cur_np)
-    if result == True:
-        print(f"Files {os.path.join(dir_with_images, prev)} is similar to {os.path.join(dir_with_images, cur)} and error score is {error}")
-    else:
+    error = check_similar_images(prev_np, cur_np)
+    if error < 0.01:
         print(f"Files {os.path.join(dir_with_images, prev)} is similar to {os.path.join(dir_with_images, cur)} and error score is {error}")
