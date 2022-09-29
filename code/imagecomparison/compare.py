@@ -25,11 +25,24 @@ def check_similar_images(original, duplicate):
         error, diff = mse_algorithm(original, duplicate)
         return error
 
+def remove_prefix(text, prefix):
+    if text.startswith(prefix):
+        return text[len(prefix):]
+
 # This is the part of iteration
 # Select current and previous element
 def iter_in_pairs(iterable):
     for i in range(1, len(iterable)):
         yield (iterable[i-1], iterable[i])
+
+
+# Process the filename to get date and time
+# Cut extension and prefix
+def file_proc(filename):
+    tmp_filename = remove_prefix(os.path.splitext(filename)[0], "scr").split("-")
+    file_date = tmp_filename[0].split("_")
+    file_time = tmp_filename[1].split("_")
+    return file_date, file_time
 
 # Iterate through directories
 directories = sorted(list([ name for name in os.listdir(dir_with_images) if os.path.isdir(os.path.join(dir_with_images, name)) ]))
@@ -44,5 +57,12 @@ for each_dir in directories:
         prev_np = cv2.imread(os.path.join(full_path_to_dir, prev))
         cur_np = cv2.imread(os.path.join(full_path_to_dir, cur))
         error = check_similar_images(prev_np, cur_np)
-        if error < 0.01:
-            print(f"Files {os.path.join(full_path_to_dir, prev)} is similar to {os.path.join(full_path_to_dir, cur)} and error score is {error}")
+        prev_file_date, prev_file_time = file_proc(prev)
+        cur_file_date, cur_file_time = file_proc(cur)
+        print(f"PREV Date: {prev_file_date} and Time: {prev_file_time}")
+        print(f"CUR Date: {cur_file_date} and Time: {cur_file_time}")
+        if error > 0.01:
+            print(f"Files {os.path.splitext(os.path.join(full_path_to_dir, prev))[0]} is similar to {os.path.join(full_path_to_dir, cur)} and error score is {error}")
+
+        else:
+            print(f"Files {os.path.splitext(os.path.join(full_path_to_dir, prev))[0]} is similar to {os.path.join(full_path_to_dir, cur)} and error score is {error}")
